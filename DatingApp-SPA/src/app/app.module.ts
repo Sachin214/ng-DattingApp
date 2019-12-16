@@ -32,6 +32,9 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { ListsResolver } from './_resolvers/lists.resover';
 import { MessagesResolver } from './_resolvers/messages.resover';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/hasRole.directive';
+import { EmployeeComponent } from './employee/employee.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -58,7 +61,10 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       MemberEditComponent,
       PhotoEditorComponent,
       TimeAgoPipe,
-      MemberMessagesComponent
+      MemberMessagesComponent,
+      AdminPanelComponent,
+      HasRoleDirective,
+      EmployeeComponent
    ],
    imports: [
       BrowserModule,
@@ -74,13 +80,12 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
       FileUploadModule,
-      JwtModule.forRoot({
-         config: {
-            tokenGetter: tokenGetter,
-            whitelistedDomains: ['localhost:5000'],
-            blacklistedRoutes: ['localhost:5000/api/auth']
-         }
-      })
+      JwtModule.forRoot(\nconfig
+   ],
+   blacklistedRoutes: [
+      'localhost
+   ]
+})
    ],
    providers: [
       AuthService,

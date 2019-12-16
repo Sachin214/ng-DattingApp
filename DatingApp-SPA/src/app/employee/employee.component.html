@@ -1,0 +1,116 @@
+<div class="container">
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onFormSubmit(employeeForm.value)">  
+    <h2 class="text-center text-primary">Create Employee</h2>
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-4">
+
+        <div class="form-group">
+          <input type="text" [ngClass]="{'is-invalid': employeeForm.get('firstName').errors 
+					&& employeeForm.get('firstName').touched}" class="form-control" formControlName="firstName"
+            placeholder="First Name">
+          <div class="invalid-feedback">Please enter a firstName</div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <input type="text" [ngClass]="{'is-invalid': employeeForm.get('lastName').errors 
+          && employeeForm.get('lastName').touched}" class="form-control" formControlName="lastName" 
+          placeholder="Last Name">
+          <div class="invalid-feedback">Please enter a lastName</div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <input type="email" [ngClass]="{'is-invalid': employeeForm.get('emailId').errors 
+          && employeeForm.get('emailId').touched}" class="form-control" formControlName="emailId" 
+          placeholder="Email Id">
+          <div class="invalid-feedback">Please enter a emailId</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="gender" style="margin-right:15px;">Gender:</label>
+          <input type="radio" formControlName="gender" name="gender" value="0" style="margin-right:7px;">Male
+          <input type="radio" formControlName="gender" name="gender" value="1" style="margin-right:7px; margin-left:15px;">Female
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <select formControlName="country" [ngClass]="{'is-invalid': employeeForm.get('country').errors 
+					&& employeeForm.get('country').touched}" class="form-control" (change)="onCountryChange($event)">
+            <option [ngValue]="null">Choose your country</option>
+            <option *ngFor="let countryName of allCountries | async" [ngValue]="countryName">
+              {{ countryName }}
+            </option>
+          </select>
+          <div class="invalid-feedback">Please select country</div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <select formControlName="city" [ngClass]="{'is-invalid': employeeForm.get('city').errors 
+					&& employeeForm.get('city').touched}" class="form-control">
+            <option [ngValue]="null">Choose your City</option>
+            <option *ngFor="let cityName of allCities | async" [ngValue]="cityName">
+              {{ cityName }}
+            </option>
+          </select>
+          <div class="invalid-feedback">Please select city</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <input [ngClass]="{'is-invalid': employeeForm.get('dateOfBirth').errors && employeeForm.get('dateOfBirth').touched}" 
+            class="form-control"
+            placeholder="Date of Birth" formControlName="dateOfBirth" type="date" >
+          <div class="invalid-feedback" 
+          *ngIf="employeeForm.get('dateOfBirth').touched && employeeForm.get('dateOfBirth').hasError('required')">Date of Birth is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <button type="submit" class="btn btn-success" [disabled]="!employeeForm.valid">Submit</button>
+      <button type="button" class="btn btn-default" (click)="resetForm()">Reset</button>
+    </div>
+    <br><br>
+    <table class="table">
+      <tr ngclass="btn-primary">
+        <th class="tbl2">First Name</th>
+        <th class="tbl2">Last Name</th>
+        <th class="tbl2">Date Of Birth</th>
+        <th class="tbl2">Email Id</th>
+        <th class="tbl2">Gender</th>
+        <th class="tbl2">City</th>
+        <th class="tbl2">Country</th>
+        <th class="tbl2">Edit</th>
+        <th class="tbl2">Delete</th>
+      </tr>
+      <tr *ngFor="let employee of allEmployees | async">
+        <td class="tbl2">{{employee.firstName}}</td>
+        <td class="tbl2">{{employee.lastName}}</td>
+        <td class="tbl2">{{employee.dateOfBirth | date }}</td>
+        <td class="tbl2">{{employee.emailId}}</td>
+        <td class="tbl2">{{employee.gender == "0" ? 'Male' : 'Female'}}</td>
+        <td class="tbl2">{{employee.city}}</td>
+        <td class="tbl2">{{employee.country}}</td>
+        <td class="tbl2">
+          <button type="button" class="btn btn-info" (click)="loadEmployeeToEdit(employee.id)">Edit</button>
+        </td>
+        <td class="tbl2">
+          <button type="button" class="btn btn-danger" (click)="deleteEmployee(employee.id)">Delete</button>
+        </td>
+      </tr>
+
+    </table>
+  </form>
+</div>
